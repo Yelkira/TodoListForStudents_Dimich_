@@ -8,7 +8,7 @@ import {Menu} from "@material-ui/icons";
 
 export type FilterValuesType = "all" | "completed" | "active"
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -19,6 +19,25 @@ type TasksStateType = {
 }
 
 function App() {
+
+    let todolistId1 = v1()
+    let todolistId2 = v1()
+
+    let [todolists, setTodolists] = useState<Array<TodoListType>>([
+        {id: todolistId1, title: "What to learn", filter: "all"},
+        {id: todolistId2, title: "What to buy", filter: "all"},
+    ])
+
+    let [tasksObj, setTasks] = useState<TasksStateType>({
+        [todolistId1]: [
+            {id: v1(), title: "CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "React", isDone: false},
+            {id: v1(), title: "Redux", isDone: false}],
+        [todolistId2]: [
+            {id: v1(), title: "Book", isDone: false},
+            {id: v1(), title: "Milk", isDone: true}],
+    })
     function removeTask(id: string, todolistId: string) {
         let tasks = tasksObj[todolistId]
 
@@ -64,13 +83,7 @@ function App() {
         }
     }
 
-    let todolistId1 = v1()
-    let todolistId2 = v1()
 
-    let [todolists, setTodolists] = useState<Array<TodoListType>>([
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"},
-    ])
 
     let removeTodoList = (todolistId: string) => {
         let filteredTodolist = todolists.filter(tl => tl.id !== todolistId)
@@ -87,16 +100,7 @@ function App() {
         }
     }
 
-    let [tasksObj, setTasks] = useState<TasksStateType>({
-        [todolistId1]: [
-            {id: v1(), title: "CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "React", isDone: false},
-            {id: v1(), title: "Redux", isDone: false}],
-        [todolistId2]: [
-            {id: v1(), title: "Book", isDone: false},
-            {id: v1(), title: "Milk", isDone: true}],
-    })
+
 
     function addItem(title: string) {
         let todolist: TodoListType = {
@@ -139,10 +143,10 @@ function App() {
                         todolists.map((tl) => {
                             let tasksForTodolist = tasksObj[tl.id];
                             if (tl.filter === "completed") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true)
+                                tasksForTodolist = tasksForTodolist.filter(t => t.isDone)
                             }
                             if (tl.filter === "active") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false)
+                                tasksForTodolist = tasksForTodolist.filter(t => !t.isDone )
                             }
 
                             return <Grid item>
