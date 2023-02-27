@@ -1,7 +1,7 @@
 import { TasksStateType } from '../App'
 import {removeTaskAC, tasksReducer} from "./test-reducer";
 
-test('correct task should be deleted from correct array', () => {
+test('correct task should be deleted frm correct array', () => {
     const startState: TasksStateType = {
         'todolistId1': [
             {id: '1', title: 'CSS', isDone: false},
